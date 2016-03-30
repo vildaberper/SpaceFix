@@ -48,6 +48,8 @@ Temporary Items
 
 # Custom
 *
+!Release
+!SpaceFixTray.exe
 !SpaceFixTray
 !*.h
 !*.cpp
