@@ -36,9 +36,15 @@ SpaceFix sf;
 std::mutex qLock;
 bool quit = false;
 
+std::mutex pLock;
+unsigned long prevented = 0;
+
 void sfLoop(){
 	while(true){
 		if(sf.tick()){
+			pLock.lock();
+			prevented++;
+			pLock.unlock();
 			notify();
 		}
 		Sleep(15);
@@ -83,7 +89,7 @@ int WINAPI WinMain(HINSTANCE hThisInstance, HINSTANCE hPrevInstance, LPSTR lpszA
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
 		400,
-		150,
+		170,
 		HWND_DESKTOP,
 		NULL,
 		hThisInstance,
@@ -199,7 +205,10 @@ void restore(){
 	HDC hdc = GetDC(Hwnd);
 	RECT rect;
 	GetClientRect(Hwnd, &rect);
-	char * text = "SpaceFix is a small program to fix accidental\ndouble presses on spacebar in selected applications.\n\nWritten by Oskar Viberg\nAKA vildaberper\nbumblebullet@gmail.com";
+	pLock.lock();
+	std::string ts = "Accident prevented: " + std::to_string(prevented) + "\n\nSpaceFix is a small program to fix accidental\ndouble presses on spacebar in selected applications.\n\nWritten by Oskar Viberg\nAKA vildaberper\nbumblebullet@gmail.com";
+	LPCSTR text = ts.c_str();
+	pLock.unlock();
 	DrawTextA(hdc, text, strlen(text), &rect, DT_CENTER | DT_VCENTER);
 }
 
