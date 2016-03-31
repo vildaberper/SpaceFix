@@ -206,7 +206,7 @@ void restore(){
 	RECT rect;
 	GetClientRect(Hwnd, &rect);
 	pLock.lock();
-	std::string ts = "Accident prevented: " + std::to_string(prevented) + "\n\nSpaceFix is a small program to fix accidental\ndouble presses on spacebar in selected applications.\n\nWritten by Oskar Viberg\nAKA vildaberper\nbumblebullet@gmail.com";
+	std::string ts = "Accidents prevented: " + std::to_string(prevented) + "\n\nSpaceFix is a small program to fix accidental\ndouble presses on spacebar in selected applications.\n\nWritten by Oskar Viberg\nAKA vildaberper\nbumblebullet@gmail.com";
 	LPCSTR text = ts.c_str();
 	pLock.unlock();
 	DrawTextA(hdc, text, strlen(text), &rect, DT_CENTER | DT_VCENTER);
